@@ -16,13 +16,14 @@ public interface BalanceRepository {
     @Select("SELECT * FROM balance WHERE id = #{id}")
     Optional<Balance> findById(Long id);
 
-    @Select("SELECT * FROM balance WHERE account_id = #{id} AND valid_to IS NULL")
+    @Select("SELECT * FROM balance WHERE account_id = #{id} AND valid_to IS NULL FOR UPDATE")
     List<Balance> findValidByAccountId(Long id);
 
-    @Select("SELECT * FROM balance WHERE account_id = #{accountId} AND currency = #{currency} AND valid_to IS NULL")
+    @Select("SELECT * FROM balance WHERE account_id = #{accountId}" +
+        " AND currency = #{currency} AND valid_to IS NULL FOR UPDATE")
     Optional<Balance> findValidBalanceByAccountIdAndCurrency(Long accountId, Currency currency);
 
-    @Update("UPDATE balance SET valid_to = now() WHERE id = #{id}")
+    @Update("UPDATE balance SET valid_to = now() WHERE id = #{id} FOR UPDATE")
     void invalidateBalance(Balance balance);
 
 }

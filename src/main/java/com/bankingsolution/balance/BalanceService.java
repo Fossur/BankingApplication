@@ -53,7 +53,7 @@ public class BalanceService {
 
         return balances.stream()
                 .map(BalanceService::convert)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static BalanceDTO convert(Balance balance) {

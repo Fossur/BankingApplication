@@ -100,7 +100,7 @@ public class TransactionService {
 
                 return new TransactionDTO(transaction, balance.get());
             })
-            .collect(Collectors.toList());
+            .toList();
     }
 
 }
