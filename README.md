@@ -54,7 +54,7 @@ You can request that previous data.
 Once an account has been created, you can make IN and OUT type of transactions with it.
 The old balance data is invalidated to keep records.
 
-You can also request all made transactions by an account;
+You can also request all made transactions by an account. Pessimistic locking is used where necessary.
 
 All inserted and updated objects are send to a publishing service, which sends them to a configured exchange.
 I've initially configured one DirectExchange to RabbitMQ with a dead-letter exchange for all messages,
