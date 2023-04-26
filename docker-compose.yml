@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: postgres:14.5-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+      # copy the sql script to create tables
+      - ./src/main/resources/db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+  rabbitmq:
+    image: rabbitmq:3.11.2-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbit
+      - RABBITMQ_DEFAULT_PASS=rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  db_volume:

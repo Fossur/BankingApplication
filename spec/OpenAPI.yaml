@@ -1,0 +1,186 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: 'http://localhost:8080'
+    description: Generated server url
+paths:
+  /transaction:
+    post:
+      tags:
+        - transaction-controller
+      operationId: makeTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDTO'
+  /account:
+    post:
+      tags:
+        - account-controller
+      operationId: createAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+  '/transaction/{accountId}':
+    get:
+      tags:
+        - transaction-controller
+      operationId: getTransactionsByAccountId
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  '/account/{accountId}':
+    get:
+      tags:
+        - account-controller
+      operationId: getAccountById
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+components:
+  schemas:
+    TransactionRequest:
+      required:
+        - accountId
+        - currency
+        - description
+        - direction
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        amount:
+          type: number
+        currency:
+          type: string
+          enum:
+            - EUR
+            - SEK
+            - GBP
+            - USD
+        direction:
+          type: string
+          enum:
+            - IN
+            - OUT
+        description:
+          type: string
+    BalanceDTO:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+          enum:
+            - EUR
+            - SEK
+            - GBP
+            - USD
+    TransactionDTO:
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        transactionId:
+          type: integer
+          format: int64
+        amount:
+          type: number
+        currency:
+          type: string
+          enum:
+            - EUR
+            - SEK
+            - GBP
+            - USD
+        direction:
+          type: string
+          enum:
+            - IN
+            - OUT
+        description:
+          type: string
+        balance:
+          $ref: '#/components/schemas/BalanceDTO'
+    AccountRequest:
+      required:
+        - country
+        - currencies
+        - customerId
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int64
+        country:
+          type: string
+        currencies:
+          type: array
+          items:
+            type: string
+            enum:
+              - EUR
+              - SEK
+              - GBP
+              - USD
+    AccountDTO:
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        customerId:
+          type: integer
+          format: int64
+        country:
+          type: string
+        balances:
+          type: array
+          items:
+            $ref: '#/components/schemas/BalanceDTO'
