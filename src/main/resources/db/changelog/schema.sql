@@ -1,9 +1,6 @@
-BEGIN TRANSACTION;
+-- liquibase formatted sql
 
-DROP TABLE IF EXISTS transaction;
-DROP TABLE IF EXISTS balance;
-DROP TABLE IF EXISTS account;
-
+-- changeset karlerikhein:add-account-table
 CREATE TABLE account (
     id              BIGSERIAL PRIMARY KEY,
     customer_id     BIGINT NOT NULL,
@@ -11,6 +8,7 @@ CREATE TABLE account (
     created_on      TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
+-- changeset karlerikhein:add-balance-table
 CREATE TABLE balance (
     id              BIGSERIAL PRIMARY KEY,
     amount          NUMERIC(32, 2) NOT NULL,
@@ -22,6 +20,7 @@ CREATE TABLE balance (
     CONSTRAINT fk_account FOREIGN KEY(account_id) REFERENCES account(id)
 );
 
+-- changeset karlerikhein:add-transaction-table
 CREATE TABLE transaction (
     id               BIGSERIAL PRIMARY KEY,
     amount           NUMERIC(32, 2) NOT NULL,
@@ -34,5 +33,3 @@ CREATE TABLE transaction (
     CONSTRAINT fk_account FOREIGN KEY(account_id) REFERENCES account(id),
     CONSTRAINT fk_new_balance FOREIGN KEY(balance_after) REFERENCES balance(id)
 );
-
-END TRANSACTION;

@@ -62,8 +62,7 @@ You can also request all made transactions by an account;
 
 All inserted and updated objects are send to a publishing service, which sends them to a configured exchange.
 I've initially configured one DirectExchange to RabbitMQ with a dead-letter exchange for all messages,
-but that can be quite easily switched out as needed. I understood that the Rabbit queue itself was for
-other listeners only, but it can also be potentially used as a buffer for this service to help manage load.
+but that can be quite easily switched out as needed.
 
 The schema is the resources folder in `db/init.sql`.
 
